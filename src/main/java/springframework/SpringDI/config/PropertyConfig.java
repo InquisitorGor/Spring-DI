@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import springframework.SpringDI.examplebeans.FakeDataSource;
+import springframework.SpringDI.examplebeans.FakeJmsBroker;
 
 @Configuration
-@PropertySource("classpath:datasource.properties")
 public class PropertyConfig {
 
     @Value("${guru.username}")
@@ -20,6 +20,15 @@ public class PropertyConfig {
     @Value("${guru.dburl}")
     String url;
 
+    @Value("${guru.jms.username}")
+    String jmsUsername;
+
+    @Value("${guru.jms.password}")
+    String jmsPassoword;
+
+    @Value("${guru.jms.url}")
+    String jmsUrl;
+
     @Bean
     public FakeDataSource fakeDataSource(){
         FakeDataSource fakeDataSource = new FakeDataSource();
@@ -30,8 +39,12 @@ public class PropertyConfig {
     }
 
     @Bean
-    public static PropertySourcesPlaceholderConfigurer properties(){
-        PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer =new PropertySourcesPlaceholderConfigurer();
-        return  propertySourcesPlaceholderConfigurer;
+    public FakeJmsBroker fakeJmsBroker(){
+        FakeJmsBroker jmsBroker = new FakeJmsBroker();
+        jmsBroker.setUsername(jmsUsername);
+        jmsBroker.setPassword(jmsPassoword);
+        jmsBroker.setUrl(jmsUrl);
+        return jmsBroker;
     }
+
 }
